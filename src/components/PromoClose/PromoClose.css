@@ -1,0 +1,28 @@
+.promo-close {
+  position: absolute;
+  background-color: #fff;
+  width: 88px;
+  height: 52px;
+  top: 20px;
+  right: 20px;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.promo-close span {
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: #000;
+}
+
+.promo-close span:first-child {
+  transform: rotate(45deg);
+}
+.promo-close span:last-child {
+  transform: rotate(-45deg);
+}
