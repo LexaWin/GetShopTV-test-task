@@ -10,9 +10,18 @@ export default class Video extends React.Component {
 
   componentDidMount() {
     this.video = document.querySelector('.video');
-    this.video.play();
 
-    this.props.bannerControl();
+    if (this.props.canPlayVideo) this.video.play();
+
+    setTimeout(() => {
+      this.props.bannerControl();
+    }, 5000);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.canPlayVideo !== prevProps.canPlayVideo) {
+      this.props.canPlayVideo ? this.video.play() : this.video.pause();
+    }
   }
 
   render() {

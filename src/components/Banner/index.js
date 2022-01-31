@@ -18,7 +18,7 @@ export default class Banner extends React.Component {
 
     setTimeout(() => {
       this.banner.classList.add('banner--active');
-    }, 5000);
+    }, 0);
   }
 
   removeBanner() {

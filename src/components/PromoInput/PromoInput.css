@@ -1,0 +1,52 @@
+.promo-input {
+  position: absolute;
+  width: 380px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(134, 211, 244, 0.8);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.promo-input--active {
+  transform: translateX(0);
+}
+
+.promo-input__title {
+  text-align: center;
+  margin-top: 72px;
+  margin-bottom: 13px;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 30.47px;
+}
+
+.promo-input__number {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 37.5px;
+  margin-bottom: 13px;
+}
+
+.promo-input__subtitle {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  margin-bottom: 13px;
+}
+
+.confirm-input-btn--inactiv {
+  width: 284px;
+  height: 52px;
+  background: none;
+  border: 1px solid #4e4e4e;
+  color: #4e4e4e;
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 18.75px;
+}

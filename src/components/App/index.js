@@ -17,6 +17,7 @@ export default class App extends React.Component {
 
     this.activateBanner = this.activateBanner.bind(this);
     this.activatePromo = this.activatePromo.bind(this);
+    this.deactivatePromo = this.deactivatePromo.bind(this);
   }
 
   activateBanner() {
@@ -29,14 +30,24 @@ export default class App extends React.Component {
     this.setState({
       isBannerActive: false,
       isPromoActive: true,
+      isVideoPlaying: false,
     });  
-  }  
+  }
+
+  deactivatePromo() {
+    this.setState({
+      isPromoActive: false,
+      isVideoPlaying: true,
+    })
+  }
 
   render() {
     return (
       <div className='app'>
-        <Video
+        <Promo />
+        {/* <Video
           bannerControl={this.activateBanner}
+          canPlayVideo={this.state.isVideoPlaying}
         />
 
         {this.state.isBannerActive && <Banner
@@ -44,8 +55,8 @@ export default class App extends React.Component {
         />}
 
         {this.state.isPromoActive && <Promo
-          // promoControl={this.handlePopups}
-        />}
+          promoControl={this.deactivatePromo}
+        />} */}
       </div>
     );
   }
