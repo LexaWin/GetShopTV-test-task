@@ -28,6 +28,7 @@
 .promo-input__number {
   font-size: 32px;
   font-weight: 700;
+  letter-spacing: 2px;
   line-height: 37.5px;
   margin-bottom: 13px;
 }
@@ -40,7 +41,7 @@
   margin-bottom: 13px;
 }
 
-.confirm-input-btn--inactiv {
+.confirm-input-btn:disabled {
   width: 284px;
   height: 52px;
   background: none;

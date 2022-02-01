@@ -1,0 +1,22 @@
+.num-btn {
+  width: 88px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  text-transform: uppercase;
+  border: 2px solid #000;
+  background-color: transparent;
+}
+
+.num-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.num-btn:nth-of-type(10) {
+  width: 186px;
+}

@@ -13,6 +13,9 @@ export default class PromoInput extends React.Component {
     this.state = {
       number: '+7(___)___-__-__',
     }
+
+    this.inputDigit = this.inputDigit.bind(this);
+    this.deleteDidit = this.deleteDidit.bind(this);
   }
 
   componentDidMount() {
@@ -21,6 +24,22 @@ export default class PromoInput extends React.Component {
     setTimeout(() => {
       this.promoInput.classList.add('promo-input--active');
     }, 0);
+  }
+
+  inputDigit(digit) {
+    const number = this.state.number.replace('_', digit);
+
+    this.setState({
+      number,
+    });
+  }
+
+  deleteDidit() {
+    const number = this.state.number.replace(/(?<!\+)\d(?=\D*$)/, '_');
+
+    this.setState({
+      number,
+    });
   }
 
   render() {
@@ -36,11 +55,14 @@ export default class PromoInput extends React.Component {
           и с Вами свяжется наш менеждер для<br />дальнейшей консультации
         </div>
 
-        <NumFrame />
+        <NumFrame
+          input={this.inputDigit}
+          delete={this.deleteDidit}
+        />
 
         <PersonalDataApproval />
 
-        <button className='confirm-input-btn--inactiv'>
+        <button className='confirm-input-btn' disabled>
           Подтвердить номер
         </button>
       </div>

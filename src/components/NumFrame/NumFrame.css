@@ -1,6 +1,10 @@
 .num-frame {
   width: 284px;
   height: 278px;
-  background-color: yellowgreen;
+  background-color: transparent;
   margin-bottom: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
