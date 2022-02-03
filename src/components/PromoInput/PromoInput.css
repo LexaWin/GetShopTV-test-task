@@ -41,13 +41,24 @@
   margin-bottom: 13px;
 }
 
-.confirm-input-btn:disabled {
+.confirm-input-btn {
   width: 284px;
   height: 52px;
   background: none;
-  border: 1px solid #4e4e4e;
-  color: #4e4e4e;
+  border: 1px solid #000;
+  color: #000;
   text-transform: uppercase;
   font-size: 16px;
   line-height: 18.75px;
+}
+
+.confirm-input-btn:disabled {
+  border: 1px solid #4e4e4e;
+  color: #4e4e4e;
+}
+
+.confirm-input-btn:focus {
+  background-color: #000;
+  color: #fff;
+  outline: none;
 }

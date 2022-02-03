@@ -1,6 +1,20 @@
 .personal-data-approval {
   width: 284px;
   height: 52px;
-  background-color: yellowgreen;
+  background-color: transparent;
   margin-bottom: 13px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.personal-data-approval__checkbox {
+  margin: 0 10px;
+}
+
+.personal-data-approval__title {
+  margin-left: 10px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #565656;
 }

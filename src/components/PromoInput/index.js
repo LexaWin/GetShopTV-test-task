@@ -9,13 +9,6 @@ export default class PromoInput extends React.Component {
     super(props);
 
     this.promoInput = null;
-
-    this.state = {
-      number: '+7(___)___-__-__',
-    }
-
-    this.inputDigit = this.inputDigit.bind(this);
-    this.deleteDidit = this.deleteDidit.bind(this);
   }
 
   componentDidMount() {
@@ -26,22 +19,6 @@ export default class PromoInput extends React.Component {
     }, 0);
   }
 
-  inputDigit(digit) {
-    const number = this.state.number.replace('_', digit);
-
-    this.setState({
-      number,
-    });
-  }
-
-  deleteDidit() {
-    const number = this.state.number.replace(/(?<!\+)\d(?=\D*$)/, '_');
-
-    this.setState({
-      number,
-    });
-  }
-
   render() {
     return (
       <div className='promo-input'>
@@ -49,20 +26,27 @@ export default class PromoInput extends React.Component {
           Введите ваш номер<br />мобильного телефона
         </div>
 
-        <div className='promo-input__number'>{this.state.number}</div>
+        <div className='promo-input__number'>{this.props.number}</div>
 
         <div className='promo-input__subtitle'>
           и с Вами свяжется наш менеждер для<br />дальнейшей консультации
         </div>
 
         <NumFrame
-          input={this.inputDigit}
-          delete={this.deleteDidit}
+          input={this.props.handleInput}
+          delete={this.props.handleDelete}
+          focused={this.props.currentButton}
         />
 
-        <PersonalDataApproval />
+        <PersonalDataApproval
+          handleCheckbox={this.props.handleCheckbox}
+        />
 
-        <button className='confirm-input-btn' disabled>
+        <button
+          className='confirm-input-btn'
+          id='confirm'
+          disabled={this.props.confirmDisabled}
+        >
           Подтвердить номер
         </button>
       </div>

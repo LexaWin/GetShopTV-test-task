@@ -14,6 +14,14 @@
   transition: transform 0.3s ease-in-out;
 }
 
+.promo-close:focus {
+  background-color: #000;
+}
+
+.promo-close:focus span {
+  background-color: #fff;
+}
+
 .promo-close--active {
   transform: translateX(0);
 }

@@ -26,13 +26,19 @@ export default class NumFrame extends React.Component {
     }
   }
 
+  hadleKeyDown(event) {}
+
   render() {
     return (
       <div
         className='num-frame'
         onClick={this.handleClick}
+        onKeyDown={this.hadleKeyDown}
       >
-        {buttons.map(btn => <NumButton key={btn} value={btn} />)}
+        {buttons.map(btn => <NumButton
+          key={btn}
+          value={btn}
+        />)}
       </div>
     );
   }
