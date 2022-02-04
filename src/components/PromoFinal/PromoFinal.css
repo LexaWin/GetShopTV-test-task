@@ -1,0 +1,29 @@
+.promo-final {
+  position: absolute;
+  width: 380px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(134, 211, 244, 0.8);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.promo-final--active {
+  transform: translateX(0);
+}
+
+.promo-final__title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 37px;
+  margin-top: 264px;
+  margin-bottom: 15px;
+}
+
+.promo-final__text {
+  text-align: center;
+  font-size: 14px;
+  line-height: 16px;
+}

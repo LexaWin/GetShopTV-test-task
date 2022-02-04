@@ -44,8 +44,8 @@ export default class App extends React.Component {
   render() {
     return (
       <div className='app'>
-        <Promo />
-        {/* <Video
+        {/* <Promo /> */}
+        <Video
           bannerControl={this.activateBanner}
           canPlayVideo={this.state.isVideoPlaying}
         />
@@ -56,7 +56,7 @@ export default class App extends React.Component {
 
         {this.state.isPromoActive && <Promo
           promoControl={this.deactivatePromo}
-        />} */}
+        />}
       </div>
     );
   }

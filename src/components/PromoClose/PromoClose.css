@@ -16,6 +16,7 @@
 
 .promo-close:focus {
   background-color: #000;
+  outline: none;
 }
 
 .promo-close:focus span {

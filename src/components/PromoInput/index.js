@@ -46,6 +46,7 @@ export default class PromoInput extends React.Component {
           className='confirm-input-btn'
           id='confirm'
           disabled={this.props.confirmDisabled}
+          onClick={this.props.handleConfirm}
         >
           Подтвердить номер
         </button>

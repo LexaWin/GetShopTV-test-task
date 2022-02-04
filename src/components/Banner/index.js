@@ -18,6 +18,9 @@ export default class Banner extends React.Component {
 
     setTimeout(() => {
       this.banner.classList.add('banner--active');
+      this.banner.addEventListener('transitionend', () => {
+        document.querySelector('.banner__btn').focus();
+      })
     }, 0);
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PromoInput from '../PromoInput';
+import PromoFinal from '../PromoFinal';
 import PromoClose from '../PromoClose';
 
 export default class Promo extends React.Component {
@@ -11,31 +12,50 @@ export default class Promo extends React.Component {
       isAgreement: false,
       isApproveButtonEnable: false,
       currentButton: 'num5',
+      promo: 'input',
     }
 
     this.inputDigit = this.inputDigit.bind(this);
     this.deleteDidit = this.deleteDidit.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
   }
 
   componentDidMount() {
-    document.querySelector(`#${this.state.currentButton}`).focus();
+    if (this.state.promo === 'input') {
+      document.querySelector(`#${this.state.currentButton}`).focus();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentButton !== this.state.currentButton) {
-      document.querySelector(`#${this.state.currentButton}`).focus();
-    }
+    if (this.state.promo === 'input') {
+      if (prevState.currentButton !== this.state.currentButton) {
+        document.querySelector(`#${this.state.currentButton}`).focus();
+      }
+      
+      if (prevState.isAgreement !== this.state.isAgreement ||
+          prevState.number !== this.state.number) {
+
+        this.setState({
+          isApproveButtonEnable: this.state.isAgreement &&
+                                checkNumber(this.state.number),
+        });
     
-    if (prevState.isAgreement !== this.state.isAgreement ||
-        prevState.number !== this.state.number) {
+      }
 
+      if (prevState.isApproveButtonEnable !== this.state.isApproveButtonEnable &&
+          this.state.isApproveButtonEnable) {
+
+        this.setState({
+          currentButton: 'confirm',
+        });
+      }
+    } else if (prevState.promo !== this.state.promo) {
+      document.querySelector('#close').focus();
       this.setState({
-        isApproveButtonEnable: this.state.isAgreement &&
-                               checkNumber(this.state.number),
+        currentButton: 'close',
       });
-
     }
   }
 
@@ -63,6 +83,12 @@ export default class Promo extends React.Component {
     this.setState({
       isAgreement: checked,
       currentButton: 'checkbox',
+    });
+  }
+
+  handleConfirm() {
+    this.setState({
+      promo: 'final',
     });
   }
 
@@ -241,14 +267,20 @@ export default class Promo extends React.Component {
   render() {
     return (
       <div onKeyDown={this.handleKeyDown}>
-        <PromoInput
-          handleInput={this.inputDigit}
-          handleDelete={this.deleteDidit}
-          handleCheckbox={this.handleCheckbox}
-          number={this.state.number}
-          currentButton={this.state.currentButton}
-          confirmDisabled={!this.state.isApproveButtonEnable}
-        />
+        {this.state.promo === 'input' ?
+          <PromoInput
+            handleInput={this.inputDigit}
+            handleDelete={this.deleteDidit}
+            handleCheckbox={this.handleCheckbox}
+            number={this.state.number}
+            currentButton={this.state.currentButton}
+            confirmDisabled={!this.state.isApproveButtonEnable}
+            handleConfirm={this.handleConfirm}
+          /> :
+
+          <PromoFinal />
+        }
+
         <PromoClose
           promoControl={this.props.promoControl}
         />
