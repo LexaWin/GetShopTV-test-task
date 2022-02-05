@@ -310,11 +310,11 @@ const checkNumber = number => {
 };
 
 const isValidNumber = async number => {
-  const API_KEY = 'ce5f8f28078dd4d00e54ee7c729ada80';
+  const API_KEY = '621fdaa3140e463da8de45668768806b';
 
   const nakedNumber = nakeNumber(number);
 
-  const url = `http://apilayer.net/api/validate?access_key=${API_KEY}&number=${nakedNumber}`;
+  const url = `https://phonevalidation.abstractapi.com/v1/?api_key=${API_KEY}&phone=${nakedNumber}`;
 
   const result = await fetchNumberData(url);
 
@@ -330,7 +330,7 @@ const fetchNumberData = async url => {
       await fetch(url);
   const data = await response.json();
 
-  console.log(data);
+  // console.log(data);
 
   return data;
 };
