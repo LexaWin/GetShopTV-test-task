@@ -1,0 +1,31 @@
+.promo-qr-code {
+  position: absolute;
+  background-color: transparent;
+  width: 314px;
+  height: 110px;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  transform: translateX(150%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.promo-qr-code--active {
+  transform: translateX(0);
+}
+
+.promo-qr-code__text {
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  margin-right: 10px;
+  color: #fff;
+}
+
+.promo-qr-code__img {
+  width: 110px;
+  height: 110px;
+}

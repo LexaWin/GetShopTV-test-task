@@ -9,11 +9,57 @@
 }
 
 .personal-data-approval__checkbox {
-  margin: 0 10px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 6px 0;
+  margin-left: 10px;
+}
+
+.personal-data-approval__input {
+  position: absolute;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.personal-data-approval__span {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 0 0 2px #000;
+  background-color: transparent;
+}
+
+.personal-data-approval__input:checked + .personal-data-approval__span::before {
+  content: "";
+  position: absolute;
+  top: 63%;
+  left: 10%;
+  display: inline-block;
+  width: 15px;
+  height: 3px;
+  background-color: #000;
+  transform: rotate(45deg);
+}
+
+.personal-data-approval__input:checked + .personal-data-approval__span::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 26%;
+  width: 30px;
+  height: 3px;
+  background-color: #000;
+  transform: rotate(-45deg);
+}
+
+.personal-data-approval__input:focus + .personal-data-approval__span {
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px #555;
 }
 
 .personal-data-approval__title {
-  margin-left: 10px;
+  margin-left: 20px;
   font-size: 14px;
   line-height: 16px;
   color: #565656;

@@ -26,7 +26,13 @@ export default class PromoInput extends React.Component {
           Введите ваш номер<br />мобильного телефона
         </div>
 
-        <div className='promo-input__number'>{this.props.number}</div>
+        <div className={`promo-input__number ${
+              this.props.isValidNumber ?
+              '' :
+              'promo-input__number--invalid'
+        }`}>
+          {this.props.number}
+        </div>
 
         <div className='promo-input__subtitle'>
           и с Вами свяжется наш менеждер для<br />дальнейшей консультации
@@ -38,9 +44,16 @@ export default class PromoInput extends React.Component {
           focused={this.props.currentButton}
         />
 
-        <PersonalDataApproval
-          handleCheckbox={this.props.handleCheckbox}
-        />
+        {this.props.isValidNumber ?
+          <PersonalDataApproval
+            handleCheckbox={this.props.handleCheckbox}
+            isValidNumber={this.props.isValidNumber}
+            isChecked={this.props.isChecked}
+          /> :
+          <div className='promo-input__error-number'>
+            Неверно введён номер
+          </div>
+        }
 
         <button
           className='confirm-input-btn'

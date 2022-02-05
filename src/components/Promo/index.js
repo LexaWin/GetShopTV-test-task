@@ -2,6 +2,7 @@ import React from 'react';
 import PromoInput from '../PromoInput';
 import PromoFinal from '../PromoFinal';
 import PromoClose from '../PromoClose';
+import PromoQrCode from '../PromoQrCode';
 
 export default class Promo extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Promo extends React.Component {
       number: '+7(___)___-__-__',
       isAgreement: false,
       isApproveButtonEnable: false,
+      isValidNumber: true,
       currentButton: 'num5',
       promo: 'input',
     }
@@ -39,7 +41,8 @@ export default class Promo extends React.Component {
 
         this.setState({
           isApproveButtonEnable: this.state.isAgreement &&
-                                checkNumber(this.state.number),
+                                 checkNumber(this.state.number) &&
+                                 this.state.isValidNumber,
         });
     
       }
@@ -74,6 +77,7 @@ export default class Promo extends React.Component {
     this.setState({
       number,
       currentButton: 'clear',
+      isValidNumber: true,
     });
   }
 
@@ -86,10 +90,18 @@ export default class Promo extends React.Component {
     });
   }
 
-  handleConfirm() {
-    this.setState({
-      promo: 'final',
-    });
+  async handleConfirm() {
+    if (await isValidNumber(this.state.number)) {
+      this.setState({
+        promo: 'final',
+      });
+    } else {
+      this.setState({
+        isValidNumber: false,
+        currentButton: 'clear',
+        isAgreement: false,
+      });
+    }
   }
 
   handleKeyDown(event) {
@@ -276,6 +288,8 @@ export default class Promo extends React.Component {
             currentButton={this.state.currentButton}
             confirmDisabled={!this.state.isApproveButtonEnable}
             handleConfirm={this.handleConfirm}
+            isValidNumber={this.state.isValidNumber}
+            isChecked={this.state.isAgreement}
           /> :
 
           <PromoFinal />
@@ -284,6 +298,8 @@ export default class Promo extends React.Component {
         <PromoClose
           promoControl={this.props.promoControl}
         />
+
+        <PromoQrCode />
       </div>
     );
   }
@@ -291,4 +307,31 @@ export default class Promo extends React.Component {
 
 const checkNumber = number => {
   return !/_/.test(number);
-}
+};
+
+const isValidNumber = async number => {
+  const API_KEY = 'ce5f8f28078dd4d00e54ee7c729ada80';
+
+  const nakedNumber = nakeNumber(number);
+
+  const url = `http://apilayer.net/api/validate?access_key=${API_KEY}&number=${nakedNumber}`;
+
+  const result = await fetchNumberData(url);
+
+  return result.valid;
+};
+
+const nakeNumber = number => {
+  return number.replace(/[\+()-]/g, '');
+};
+
+const fetchNumberData = async url => {
+  const response =
+      await fetch(url);
+  const data = await response.json();
+
+  console.log(data);
+
+  return data;
+};
+
