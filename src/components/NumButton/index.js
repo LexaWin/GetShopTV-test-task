@@ -2,17 +2,28 @@ import React from 'react';
 
 import './NumButton.css';
 
-export default class NumButton extends React.Component {
-  render() {
-    return (
-      <button
-        className='num-btn'
-        id={this.props.value === 'стереть' ?
-                     'clear' :
-                     'num' + this.props.value}
-      >
-        {this.props.value}
-      </button>
-    );
-  }
+const NumButton = props => {
+  const {
+    id,
+    value,
+    doubled,
+    handleClick,
+    handleKeyDown,
+  } = props;
+
+  let className = 'num-btn';
+  className += (doubled ? ' num-btn--doubled' : '');
+
+  return (
+    <button
+      className={className}
+      id={id}
+      onClick={(event) => handleClick(event.target.id)}
+      onKeyDown={(event) => handleKeyDown(event.target.id, event.code)}
+    >
+      {value}
+    </button>
+  );
 }
+
+export default NumButton

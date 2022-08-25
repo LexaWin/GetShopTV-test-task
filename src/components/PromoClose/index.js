@@ -21,7 +21,7 @@ export default class PromoClose extends React.Component {
     return (
       <button
         className='promo-close'
-        id='close'
+        id='nbClose'
         onClick={this.props.promoControl}
       >
         <span></span>

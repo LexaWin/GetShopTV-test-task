@@ -2,6 +2,9 @@ import React from 'react';
 import Video from '../Video';
 import Banner from '../Banner';
 import Promo from '../Promo';
+//TEST
+import NumFrame from '../NumFrame';
+//TEST
 
 import './App.css';
 
@@ -44,19 +47,23 @@ export default class App extends React.Component {
   render() {
     return (
       <div className='app'>
-        {/* <Promo /> */}
-        <Video
-          bannerControl={this.activateBanner}
-          canPlayVideo={this.state.isVideoPlaying}
+        <Promo
+        
         />
+      {
+      //   <Video
+      //     bannerControl={this.activateBanner}
+      //     canPlayVideo={this.state.isVideoPlaying}
+      //   />
 
-        {this.state.isBannerActive && <Banner
-          bannerControl={this.activatePromo}
-        />}
+      //   {this.state.isBannerActive && <Banner
+      //     bannerControl={this.activatePromo}
+      //   />}
 
-        {this.state.isPromoActive && <Promo
-          promoControl={this.deactivatePromo}
-        />}
+      //   {this.state.isPromoActive && <Promo
+      //     promoControl={this.deactivatePromo}
+      //   />}
+      }
       </div>
     );
   }

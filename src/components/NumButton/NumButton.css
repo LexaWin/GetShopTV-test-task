@@ -1,24 +1,22 @@
 .num-btn {
   width: 88px;
   height: 52px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 19px;
-  text-transform: uppercase;
-  border: 2px solid #000;
+  border: 2px solid #000000;
   background-color: transparent;
   cursor: pointer;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-transform: uppercase;
+}
+
+.num-btn--doubled {
+  width: 186px;
 }
 
 .num-btn:focus {
-  background-color: #000;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
   outline: none;
-}
-
-.num-btn:nth-of-type(10) {
-  width: 186px;
 }

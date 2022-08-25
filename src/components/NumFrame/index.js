@@ -1,45 +1,115 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NumButton from '../NumButton';
 
 import './NumFrame.css';
 
-const buttons = [
-  '1', '2', '3', '4', '5', '6', '7', '8', '9', 'стереть', '0'
-]
+const NumFrame = props => {
+  const {
+    addDigit,
+    removeDidit,
+    returnFocus,
+    isFocus,
+  } = props;
 
-export default class NumFrame extends React.Component {
-  constructor(props) {
-    super(props);
+  const buttons = [
+    {id: 'nb1', value: '1'}, {id: 'nb2', value: '2'}, {id: 'nb3', value: '3'},
 
-    this.handleClick = this.handleClick.bind(this);
-  }
+    {id: 'nb4', value: '4'}, {id: 'nb5', value: '5'}, {id: 'nb6', value: '6'},
 
-  handleClick(event) {
-    const button = event.target.closest('button');
+    {id: 'nb7', value: '7'}, {id: 'nb8', value: '8'}, {id: 'nb9', value: '9'},
 
-    if (!button) return;
+    {id: 'nbClear', value: 'стереть', size: 'double'}, {id: 'nb0', value: '0'},
+  ];
 
-    if (button.innerHTML.toLowerCase() !== 'стереть') {
-      this.props.input(button.innerHTML);
-    } else {
-      this.props.delete();
+  const [activeButtonId, setActiveButton] = useState('nb5');
+
+  useEffect(() => {
+    if (activeButtonId && isFocus) {
+      document.querySelector(`#${activeButtonId}`).focus();
     }
-  }
+  });
 
-  hadleKeyDown(event) {}
+  const handleClick = (buttonId) => {
+    setActiveButton(buttonId);
 
-  render() {
-    return (
-      <div
-        className='num-frame'
-        onClick={this.handleClick}
-        onKeyDown={this.hadleKeyDown}
-      >
-        {buttons.map(btn => <NumButton
-          key={btn}
-          value={btn}
-        />)}
-      </div>
-    );
-  }
+    if (buttonId === 'nbClear') {
+      removeDidit();
+    } else {
+      addDigit(buttons[getIndex(buttonId)].value);
+    }
+  };
+
+  const getIndex = (buttonId) => {
+    return buttons.findIndex(button => button.id === buttonId);
+  };
+
+  const handleKeyDown = (buttonId, keyCode) => {
+    const index = getIndex(buttonId);
+    let newIndex,
+        step;
+
+    switch(keyCode) {
+      case 'ArrowUp':
+        step = (buttonId === 'nb0' ? 2 : 3);
+        newIndex = index - step;
+
+        if (newIndex >= 0) {
+          setActiveButton(buttons[newIndex].id);
+        } else {
+          returnFocus(keyCode)
+        }
+
+        break;
+
+      case 'ArrowRight':
+        if ((index + 1) % 3 === 0 || buttonId === 'nb0') {
+          returnFocus(keyCode);
+        } else {
+          setActiveButton(buttons[index + 1].id);
+        }
+
+        break;
+
+      case 'ArrowDown':
+        step = ((buttonId === 'nb8' || buttonId === 'nb9') ? 2 : 3);
+        newIndex = index + step;
+
+        if (newIndex < buttons.length) {
+          setActiveButton(buttons[newIndex].id);
+        } else {
+          returnFocus(keyCode);
+        }
+
+        break;
+
+      case 'ArrowLeft':
+        if ((index + 1) % 3 === 1) {
+          returnFocus(keyCode);
+        } else {
+          setActiveButton(buttons[index - 1].id);
+        }
+
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <div className='num-frame'>
+      {buttons.map(button => (
+        <NumButton
+          key={button.id}
+          id={button.id}
+          doubled={button.size === 'double'}
+          value={button.value}
+          handleClick={handleClick}
+          handleKeyDown={handleKeyDown}
+        />
+      ))}
+    </div>
+  );
 }
+
+export default NumFrame;
