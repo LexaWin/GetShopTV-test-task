@@ -309,8 +309,8 @@ const checkNumber = number => {
   return !/_/.test(number);
 };
 
-const isValidNumber = async number => {
-  const API_KEY = '621fdaa3140e463da8de45668768806b';
+const isValidNumber = async (number) => {
+  const API_KEY = '9a6f00b3e5b2495fb026a4448c87e040';
 
   const nakedNumber = nakeNumber(number);
 
