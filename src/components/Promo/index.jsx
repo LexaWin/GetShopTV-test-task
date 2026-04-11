@@ -35,14 +35,14 @@ export default class Promo extends React.Component {
       if (prevState.currentButton !== this.state.currentButton) {
         document.querySelector(`#${this.state.currentButton}`).focus();
       }
-      
+
       if (prevState.isAgreement !== this.state.isAgreement ||
           prevState.number !== this.state.number) {
 
         this.setState({
           isApproveButtonEnable: this.state.isAgreement &&
-                                 checkNumber(this.state.number) &&
-                                 this.state.isValidNumber,
+            checkNumber(this.state.number) &&
+            this.state.isValidNumber,
         });
     
       }
@@ -256,7 +256,7 @@ export default class Promo extends React.Component {
             break;
         }
         break;
-      
+
       case 'Backspace':
         this.deleteDidit();
         break;
@@ -278,7 +278,7 @@ export default class Promo extends React.Component {
 
   render() {
     return (
-      <div onKeyDown={this.handleKeyDown}>
+      <div data-testid="promo-input" onKeyDown={this.handleKeyDown}>
         {this.state.promo === 'input' ?
           <PromoInput
             handleInput={this.inputDigit}
@@ -334,4 +334,3 @@ const fetchNumberData = async url => {
 
   return data;
 };
-

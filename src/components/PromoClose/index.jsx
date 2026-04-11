@@ -20,6 +20,7 @@ export default class PromoClose extends React.Component {
   render() {
     return (
       <button
+        data-testid="close"
         className='promo-close'
         id='close'
         onClick={this.props.promoControl}

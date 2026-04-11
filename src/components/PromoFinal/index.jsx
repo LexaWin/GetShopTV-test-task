@@ -19,10 +19,16 @@ export default class PromoFinal extends React.Component {
 
   render() {
     return (
-      <div className='promo-final'>
-        <h1 className='promo-final__title'>ЗАЯВКА<br />ПРИНЯТА</h1>
-        <p className='promo-final__text'>
-          Держите телефон под рукой.<br />Скоро с Вами свяжется наш менеджер.
+      <div className="promo-final" data-testid="promo-final">
+        <h1 className="promo-final__title">
+          ЗАЯВКА
+          <br />
+          ПРИНЯТА
+        </h1>
+        <p className="promo-final__text">
+          Держите телефон под рукой.
+          <br />
+          Скоро с Вами свяжется наш менеджер.
         </p>
       </div>
     );

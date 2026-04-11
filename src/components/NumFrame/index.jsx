@@ -32,6 +32,7 @@ export default class NumFrame extends React.Component {
     return (
       <div
         className='num-frame'
+        data-testid="num-frame"
         onClick={this.handleClick}
         onKeyDown={this.hadleKeyDown}
       >
