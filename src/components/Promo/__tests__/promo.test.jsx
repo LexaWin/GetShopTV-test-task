@@ -1,6 +1,6 @@
 import { describe, expect, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Promo from '..';
+import { Promo } from '..';
 
 describe('Promo', () => {
   it('отображает начальное состояние', async () => {

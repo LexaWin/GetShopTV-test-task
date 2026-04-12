@@ -1,264 +1,230 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PromoInput from '../PromoInput';
 import PromoFinal from '../PromoFinal';
 import PromoClose from '../PromoClose';
 import PromoQrCode from '../PromoQrCode';
 
-export default class Promo extends React.Component {
-  constructor(props) {
-    super(props);
+export const Promo = (props) => {
+  const [number, setNumber] = useState('+7(___)___-__-__');
+  const [isAgreement, setIsAgreement] = useState(false);
+  const [isValidNumber, setIsValidNumber] = useState(true);
+  const [currentButton, setCurrentButton] = useState('num5');
+  const [promo, setPromo] = useState('input');
 
-    this.state = {
-      number: '+7(___)___-__-__',
-      isAgreement: false,
-      isApproveButtonEnable: false,
-      isValidNumber: true,
-      currentButton: 'num5',
-      promo: 'input',
+  const isApproveButtonEnable =
+    isAgreement && isValidNumber && checkNumber(number);
+
+  useEffect(() => {
+    if (promo === 'input') {
+      document.querySelector(`#${currentButton}`).focus();
     }
+  }, [currentButton, promo]);
 
-    this.inputDigit = this.inputDigit.bind(this);
-    this.deleteDidit = this.deleteDidit.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleCheckbox = this.handleCheckbox.bind(this);
-    this.handleConfirm = this.handleConfirm.bind(this);
-  }
+  useEffect(() => {
+    if (!isApproveButtonEnable || promo !== 'input') return;
 
-  componentDidMount() {
-    if (this.state.promo === 'input') {
-      document.querySelector(`#${this.state.currentButton}`).focus();
-    }
-  }
+    setCurrentButton('confirm');
+  }, [isApproveButtonEnable, promo]);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.promo === 'input') {
-      if (prevState.currentButton !== this.state.currentButton) {
-        document.querySelector(`#${this.state.currentButton}`).focus();
-      }
+  useEffect(() => {
+    if (promo === 'input') return;
 
-      if (prevState.isAgreement !== this.state.isAgreement ||
-          prevState.number !== this.state.number) {
+    setCurrentButton('close');
+  }, [promo]);
 
-        this.setState({
-          isApproveButtonEnable: this.state.isAgreement &&
-            checkNumber(this.state.number) &&
-            this.state.isValidNumber,
-        });
-    
-      }
+  const inputDigit = (digit) => {
+    setNumber((prev) => prev.replace('_', digit));
+    setCurrentButton(`num${digit}`);
+  };
 
-      if (prevState.isApproveButtonEnable !== this.state.isApproveButtonEnable &&
-          this.state.isApproveButtonEnable) {
+  const deleteDidit = () => {
+    setNumber((prev) => prev.replace(/(?<!\+)\d(?=\D*$)/, '_'));
+    setCurrentButton('clear');
+    setIsValidNumber(true);
+  };
 
-        this.setState({
-          currentButton: 'confirm',
-        });
-      }
-    } else if (prevState.promo !== this.state.promo) {
-      document.querySelector('#close').focus();
-      this.setState({
-        currentButton: 'close',
-      });
-    }
-  }
+  const handleCheckbox = () => {
+    setIsAgreement((prev) => !prev);
+    setCurrentButton('checkbox');
+  };
 
-  inputDigit(digit) {
-    const number = this.state.number.replace('_', digit);
-
-    this.setState({
-      number,
-      currentButton: `num${digit}`,
-    });
-  }
-
-  deleteDidit() {
-    const number = this.state.number.replace(/(?<!\+)\d(?=\D*$)/, '_');
-
-    this.setState({
-      number,
-      currentButton: 'clear',
-      isValidNumber: true,
-    });
-  }
-
-  handleCheckbox() {
-    const checked = !this.state.isAgreement;
-
-    this.setState({
-      isAgreement: checked,
-      currentButton: 'checkbox',
-    });
-  }
-
-  async handleConfirm() {
-    if (await isValidNumber(this.state.number)) {
-      this.setState({
-        promo: 'final',
-      });
+  const handleConfirm = async () => {
+    if (await validateNumber(number)) {
+      setPromo('final');
     } else {
-      this.setState({
-        isValidNumber: false,
-        currentButton: 'clear',
-        isAgreement: false,
-      });
+      setIsAgreement(false);
+      setCurrentButton('clear');
+      setIsValidNumber(false);
     }
-  }
+  };
 
-  handleKeyDown(event) {
-    switch(event.code) {
+  const handleKeyDown = (event) => {
+    switch (event.code) {
       case 'ArrowUp':
-        switch(this.state.currentButton) {
+        switch (currentButton) {
           case 'num4':
-            this.setState({currentButton: 'num1'});
+            setCurrentButton('num1');
             break;
           case 'num5':
-            this.setState({currentButton: 'num2'});
+            setCurrentButton('num2');
             break;
           case 'num6':
-            this.setState({currentButton: 'num3'});
+            setCurrentButton('num3');
             break;
           case 'num7':
-            this.setState({currentButton: 'num4'});
+            setCurrentButton('num4');
             break;
           case 'num8':
-            this.setState({currentButton: 'num5'});
+            setCurrentButton('num5');
             break;
           case 'num9':
-            this.setState({currentButton: 'num6'});
+            setCurrentButton('num6');
             break;
           case 'clear':
-            this.setState({currentButton: 'num7'});
+            setCurrentButton('num7');
             break;
           case 'num0':
-            this.setState({currentButton: 'num9'});
+            setCurrentButton('num9');
             break;
           case 'checkbox':
-            this.setState({currentButton: 'clear'});
+            setCurrentButton('clear');
             break;
           case 'confirm':
-            this.setState({currentButton: 'checkbox'});
+            setCurrentButton('checkbox');
+            break;
+
+          default:
             break;
         }
         break;
 
       case 'ArrowRight':
-        switch(this.state.currentButton) {
+        switch (currentButton) {
           case 'num1':
-            this.setState({currentButton: 'num2'});
+            setCurrentButton('num2');
             break;
           case 'num2':
-            this.setState({currentButton: 'num3'});
+            setCurrentButton('num3');
             break;
           case 'num3':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
             break;
           case 'num4':
-            this.setState({currentButton: 'num5'});
+            setCurrentButton('num5');
             break;
           case 'num5':
-            this.setState({currentButton: 'num6'});
+            setCurrentButton('num6');
             break;
           case 'num6':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
             break;
           case 'num7':
-            this.setState({currentButton: 'num8'});
+            setCurrentButton('num8');
             break;
           case 'num8':
-            this.setState({currentButton: 'num9'});
+            setCurrentButton('num9');
             break;
           case 'num9':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
             break;
           case 'clear':
-            this.setState({currentButton: 'num0'});
+            setCurrentButton('num0');
             break;
           case 'num0':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
             break;
           case 'checkbox':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
             break;
           case 'confirm':
-            this.setState({currentButton: 'close'});
+            setCurrentButton('close');
+            break;
+
+          default:
             break;
         }
         break;
 
       case 'ArrowDown':
-        switch(this.state.currentButton) {
+        switch (currentButton) {
           case 'num1':
-            this.setState({currentButton: 'num4'});
+            setCurrentButton('num4');
             break;
           case 'num2':
-            this.setState({currentButton: 'num5'});
+            setCurrentButton('num5');
             break;
           case 'num3':
-            this.setState({currentButton: 'num6'});
+            setCurrentButton('num6');
             break;
           case 'num4':
-            this.setState({currentButton: 'num7'});
+            setCurrentButton('num7');
             break;
           case 'num5':
-            this.setState({currentButton: 'num8'});
+            setCurrentButton('num8');
             break;
           case 'num6':
-            this.setState({currentButton: 'num9'});
+            setCurrentButton('num9');
             break;
           case 'num7':
-            this.setState({currentButton: 'clear'});
+            setCurrentButton('clear');
             break;
           case 'num8':
-            this.setState({currentButton: 'clear'});
+            setCurrentButton('clear');
             break;
           case 'num9':
-            this.setState({currentButton: 'num0'});
+            setCurrentButton('num0');
             break;
           case 'clear':
-            this.setState({currentButton: 'checkbox'});
+            setCurrentButton('checkbox');
             break;
           case 'num0':
-            this.setState({currentButton: 'checkbox'});
+            setCurrentButton('checkbox');
             break;
           case 'checkbox':
-            if (this.state.isApproveButtonEnable) {
-              this.setState({currentButton: 'confirm'});
-            }
+            if (!isApproveButtonEnable) return;
+
+            setCurrentButton('confirm');
+            break;
+
+          default:
             break;
         }
         break;
 
       case 'ArrowLeft':
-        switch(this.state.currentButton) {
+        switch (currentButton) {
           case 'num2':
-            this.setState({currentButton: 'num1'});
+            setCurrentButton('num1');
             break;
           case 'num3':
-            this.setState({currentButton: 'num2'});
+            setCurrentButton('num2');
             break;
           case 'num5':
-            this.setState({currentButton: 'num4'});
+            setCurrentButton('num4');
             break;
           case 'num6':
-            this.setState({currentButton: 'num5'});
+            setCurrentButton('num5');
             break;
           case 'num8':
-            this.setState({currentButton: 'num7'});
+            setCurrentButton('num7');
             break;
           case 'num9':
-            this.setState({currentButton: 'num8'});
+            setCurrentButton('num8');
             break;
           case 'num0':
-            this.setState({currentButton: 'clear'});
+            setCurrentButton('clear');
             break;
           case 'close':
-            this.setState({currentButton: 'num5'});
+            setCurrentButton('num5');
+            break;
+
+          default:
             break;
         }
         break;
 
       case 'Backspace':
-        this.deleteDidit();
+        deleteDidit();
         break;
 
       case 'Digit1':
@@ -271,45 +237,44 @@ export default class Promo extends React.Component {
       case 'Digit8':
       case 'Digit9':
       case 'Digit0':
-        this.inputDigit(event.code.slice(-1));
+        inputDigit(event.code.slice(-1));
+        break;
+
+      default:
         break;
     }
-  }
+  };
 
-  render() {
-    return (
-      <div data-testid="promo-input" onKeyDown={this.handleKeyDown}>
-        {this.state.promo === 'input' ?
-          <PromoInput
-            handleInput={this.inputDigit}
-            handleDelete={this.deleteDidit}
-            handleCheckbox={this.handleCheckbox}
-            number={this.state.number}
-            currentButton={this.state.currentButton}
-            confirmDisabled={!this.state.isApproveButtonEnable}
-            handleConfirm={this.handleConfirm}
-            isValidNumber={this.state.isValidNumber}
-            isChecked={this.state.isAgreement}
-          /> :
-
-          <PromoFinal />
-        }
-
-        <PromoClose
-          promoControl={this.props.promoControl}
+  return (
+    <div data-testid="promo-input" onKeyDown={handleKeyDown}>
+      {promo === 'input' ? (
+        <PromoInput
+          handleInput={inputDigit}
+          handleDelete={deleteDidit}
+          handleCheckbox={handleCheckbox}
+          number={number}
+          currentButton={currentButton}
+          confirmDisabled={!isApproveButtonEnable}
+          handleConfirm={handleConfirm}
+          isValidNumber={isValidNumber}
+          isChecked={isAgreement}
         />
+      ) : (
+        <PromoFinal />
+      )}
 
-        <PromoQrCode />
-      </div>
-    );
-  }
-}
+      <PromoClose promoControl={props.promoControl} />
 
-const checkNumber = number => {
+      <PromoQrCode />
+    </div>
+  );
+};
+
+const checkNumber = (number) => {
   return !/_/.test(number);
 };
 
-const isValidNumber = async (number) => {
+const validateNumber = async (number) => {
   const API_KEY = '9a6f00b3e5b2495fb026a4448c87e040';
 
   const nakedNumber = nakeNumber(number);
@@ -321,16 +286,13 @@ const isValidNumber = async (number) => {
   return result.valid;
 };
 
-const nakeNumber = number => {
-  return number.replace(/[\+()-]/g, '');
+const nakeNumber = (number) => {
+  return number.replace(/[+()-]/g, '');
 };
 
-const fetchNumberData = async url => {
-  const response =
-      await fetch(url);
+const fetchNumberData = async (url) => {
+  const response = await fetch(url);
   const data = await response.json();
-
-  // console.log(data);
 
   return data;
 };

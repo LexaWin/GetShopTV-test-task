@@ -1,7 +1,7 @@
 import React from 'react';
 import Video from '../Video';
 import Banner from '../Banner';
-import Promo from '../Promo';
+import { Promo } from '../Promo';
 
 import './App.css';
 
@@ -31,7 +31,7 @@ export default class App extends React.Component {
       isBannerActive: false,
       isPromoActive: true,
       isVideoPlaying: false,
-    });  
+    });
   }
 
   deactivatePromo() {

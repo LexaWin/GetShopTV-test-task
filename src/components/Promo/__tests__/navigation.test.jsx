@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect } from 'vitest';
-import Promo from '..';
+import { Promo } from '..';
 
 describe('Promo navigation', () => {
   describe('ArrowUp', () => {
