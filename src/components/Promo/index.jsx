@@ -3,16 +3,22 @@ import PromoInput from '../PromoInput';
 import PromoFinal from '../PromoFinal';
 import PromoClose from '../PromoClose';
 import PromoQrCode from '../PromoQrCode';
+import { buttonMap } from './constatns';
+import { getButtonPosition } from './utils';
 
 export const Promo = (props) => {
   const [number, setNumber] = useState('+7(___)___-__-__');
   const [isAgreement, setIsAgreement] = useState(false);
   const [isValidNumber, setIsValidNumber] = useState(true);
-  const [currentButton, setCurrentButton] = useState('num5');
+  const [currentButtonPosition, setCurrentButtonPosition] = useState(
+    getButtonPosition('num5'),
+  );
   const [promo, setPromo] = useState('input');
 
   const isApproveButtonEnable =
     isAgreement && isValidNumber && checkNumber(number);
+  const currentButton =
+    buttonMap[currentButtonPosition.y][currentButtonPosition.x];
 
   useEffect(() => {
     if (promo === 'input') {
@@ -23,29 +29,29 @@ export const Promo = (props) => {
   useEffect(() => {
     if (!isApproveButtonEnable || promo !== 'input') return;
 
-    setCurrentButton('confirm');
+    setCurrentButtonPosition(getButtonPosition('confirm'));
   }, [isApproveButtonEnable, promo]);
 
   useEffect(() => {
     if (promo === 'input') return;
 
-    setCurrentButton('close');
+    setCurrentButtonPosition(getButtonPosition('close'));
   }, [promo]);
 
   const inputDigit = (digit) => {
     setNumber((prev) => prev.replace('_', digit));
-    setCurrentButton(`num${digit}`);
+    setCurrentButtonPosition(getButtonPosition(`num${digit}`));
   };
 
   const deleteDidit = () => {
     setNumber((prev) => prev.replace(/(?<!\+)\d(?=\D*$)/, '_'));
-    setCurrentButton('clear');
+    setCurrentButtonPosition(getButtonPosition('clear'));
     setIsValidNumber(true);
   };
 
   const handleCheckbox = () => {
     setIsAgreement((prev) => !prev);
-    setCurrentButton('checkbox');
+    setCurrentButtonPosition(getButtonPosition('checkbox'));
   };
 
   const handleConfirm = async () => {
@@ -53,7 +59,7 @@ export const Promo = (props) => {
       setPromo('final');
     } else {
       setIsAgreement(false);
-      setCurrentButton('clear');
+      setCurrentButtonPosition(getButtonPosition('clear'));
       setIsValidNumber(false);
     }
   };
@@ -61,166 +67,37 @@ export const Promo = (props) => {
   const handleKeyDown = (event) => {
     switch (event.code) {
       case 'ArrowUp':
-        switch (currentButton) {
-          case 'num4':
-            setCurrentButton('num1');
-            break;
-          case 'num5':
-            setCurrentButton('num2');
-            break;
-          case 'num6':
-            setCurrentButton('num3');
-            break;
-          case 'num7':
-            setCurrentButton('num4');
-            break;
-          case 'num8':
-            setCurrentButton('num5');
-            break;
-          case 'num9':
-            setCurrentButton('num6');
-            break;
-          case 'clear':
-            setCurrentButton('num7');
-            break;
-          case 'num0':
-            setCurrentButton('num9');
-            break;
-          case 'checkbox':
-            setCurrentButton('clear');
-            break;
-          case 'confirm':
-            setCurrentButton('checkbox');
-            break;
-
-          default:
-            break;
-        }
+        setCurrentButtonPosition((prev) =>
+          prev.x === 3 ? prev : { ...prev, y: Math.max(0, prev.y - 1) },
+        );
         break;
 
       case 'ArrowRight':
-        switch (currentButton) {
-          case 'num1':
-            setCurrentButton('num2');
-            break;
-          case 'num2':
-            setCurrentButton('num3');
-            break;
-          case 'num3':
-            setCurrentButton('close');
-            break;
-          case 'num4':
-            setCurrentButton('num5');
-            break;
-          case 'num5':
-            setCurrentButton('num6');
-            break;
-          case 'num6':
-            setCurrentButton('close');
-            break;
-          case 'num7':
-            setCurrentButton('num8');
-            break;
-          case 'num8':
-            setCurrentButton('num9');
-            break;
-          case 'num9':
-            setCurrentButton('close');
-            break;
-          case 'clear':
-            setCurrentButton('num0');
-            break;
-          case 'num0':
-            setCurrentButton('close');
-            break;
-          case 'checkbox':
-            setCurrentButton('close');
-            break;
-          case 'confirm':
-            setCurrentButton('close');
-            break;
+        let step = 1;
 
-          default:
-            break;
-        }
+        if (currentButton === 'clear') step = 2 - currentButtonPosition.x;
+        else if (currentButton === 'checkbox' || currentButton === 'confirm')
+          step = 3 - currentButtonPosition.x;
+
+        setCurrentButtonPosition((prev) => ({
+          ...prev,
+          x: Math.min(prev.x + step, 3),
+        }));
         break;
 
       case 'ArrowDown':
-        switch (currentButton) {
-          case 'num1':
-            setCurrentButton('num4');
-            break;
-          case 'num2':
-            setCurrentButton('num5');
-            break;
-          case 'num3':
-            setCurrentButton('num6');
-            break;
-          case 'num4':
-            setCurrentButton('num7');
-            break;
-          case 'num5':
-            setCurrentButton('num8');
-            break;
-          case 'num6':
-            setCurrentButton('num9');
-            break;
-          case 'num7':
-            setCurrentButton('clear');
-            break;
-          case 'num8':
-            setCurrentButton('clear');
-            break;
-          case 'num9':
-            setCurrentButton('num0');
-            break;
-          case 'clear':
-            setCurrentButton('checkbox');
-            break;
-          case 'num0':
-            setCurrentButton('checkbox');
-            break;
-          case 'checkbox':
-            if (!isApproveButtonEnable) return;
-
-            setCurrentButton('confirm');
-            break;
-
-          default:
-            break;
-        }
+        setCurrentButtonPosition((prev) =>
+          prev.x === 3 || (prev.y === 4 && !isApproveButtonEnable)
+            ? prev
+            : { ...prev, y: Math.min(prev.y + 1, 5) },
+        );
         break;
 
       case 'ArrowLeft':
-        switch (currentButton) {
-          case 'num2':
-            setCurrentButton('num1');
-            break;
-          case 'num3':
-            setCurrentButton('num2');
-            break;
-          case 'num5':
-            setCurrentButton('num4');
-            break;
-          case 'num6':
-            setCurrentButton('num5');
-            break;
-          case 'num8':
-            setCurrentButton('num7');
-            break;
-          case 'num9':
-            setCurrentButton('num8');
-            break;
-          case 'num0':
-            setCurrentButton('clear');
-            break;
-          case 'close':
-            setCurrentButton('num5');
-            break;
-
-          default:
-            break;
-        }
+        setCurrentButtonPosition((prev) => ({
+          ...prev,
+          x: Math.max(0, prev.x - 1),
+        }));
         break;
 
       case 'Backspace':

@@ -558,19 +558,23 @@ describe('Promo navigation', () => {
 
       expect(screen.getByRole('button', { name: /стереть/i })).toHaveFocus();
     });
+  });
 
-    it('переходит на кнопку 5 с кнопки "close"', () => {
+  describe('combo tests', () => {
+    it('с кнопки "close" всегда возвращается на ту же кнопку, с который был выполнен переход', () => {
       render(<Promo />);
 
       const button6 = screen.getByRole('button', { name: '6' });
+      const buttonClose = screen.getByTestId('close');
+
       fireEvent.click(button6);
       fireEvent.keyDown(button6, { code: 'ArrowRight' });
+      fireEvent.keyDown(buttonClose, { code: 'ArrowDown' });
+      fireEvent.keyDown(buttonClose, { code: 'ArrowDown' });
+      fireEvent.keyDown(buttonClose, { code: 'ArrowUp' });
+      fireEvent.keyDown(buttonClose, { code: 'ArrowLeft' });
 
-      fireEvent.keyDown(screen.getByTestId('close'), {
-        code: 'ArrowLeft',
-      });
-
-      expect(screen.getByRole('button', { name: '5' })).toHaveFocus();
+      expect(button6).toHaveFocus();
     });
   });
 });
