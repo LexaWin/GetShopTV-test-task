@@ -4,7 +4,7 @@ import PromoFinal from '../PromoFinal';
 import PromoClose from '../PromoClose';
 import PromoQrCode from '../PromoQrCode';
 import { buttonMap } from './constatns';
-import { getButtonPosition } from './utils';
+import { checkNumber, getButtonPosition, validateNumber } from './utils';
 import { TDigit } from './interfaces';
 
 interface PromoProps {
@@ -154,31 +154,4 @@ export const Promo = ({ promoControl }: PromoProps) => {
       <PromoQrCode />
     </div>
   );
-};
-
-const checkNumber = (number: string) => {
-  return !/_/.test(number);
-};
-
-const validateNumber = async (number: string) => {
-  const API_KEY = '9a6f00b3e5b2495fb026a4448c87e040';
-
-  const nakedNumber = nakeNumber(number);
-
-  const url = `https://phonevalidation.abstractapi.com/v1/?api_key=${API_KEY}&phone=${nakedNumber}`;
-
-  const result = await fetchNumberData(url);
-
-  return result.valid;
-};
-
-const nakeNumber = (number: string) => {
-  return number.replace(/[+()-]/g, '');
-};
-
-const fetchNumberData = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.json();
-
-  return data;
 };
