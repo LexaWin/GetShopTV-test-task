@@ -5,8 +5,13 @@ import PromoClose from '../PromoClose';
 import PromoQrCode from '../PromoQrCode';
 import { buttonMap } from './constatns';
 import { getButtonPosition } from './utils';
+import { TDigit } from './interfaces';
 
-export const Promo = (props) => {
+interface PromoProps {
+  promoControl?(): void;
+}
+
+export const Promo = ({ promoControl }: PromoProps) => {
   const [number, setNumber] = useState('+7(___)___-__-__');
   const [isAgreement, setIsAgreement] = useState(false);
   const [isValidNumber, setIsValidNumber] = useState(true);
@@ -22,7 +27,11 @@ export const Promo = (props) => {
 
   useEffect(() => {
     if (promo === 'input') {
-      document.querySelector(`#${currentButton}`).focus();
+      document
+        .querySelector<
+          HTMLButtonElement | HTMLInputElement
+        >(`#${currentButton}`)
+        ?.focus();
     }
   }, [currentButton, promo]);
 
@@ -38,7 +47,7 @@ export const Promo = (props) => {
     setCurrentButtonPosition(getButtonPosition('close'));
   }, [promo]);
 
-  const inputDigit = (digit) => {
+  const inputDigit = (digit: TDigit) => {
     setNumber((prev) => prev.replace('_', digit));
     setCurrentButtonPosition(getButtonPosition(`num${digit}`));
   };
@@ -64,7 +73,7 @@ export const Promo = (props) => {
     }
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     switch (event.code) {
       case 'ArrowUp':
         setCurrentButtonPosition((prev) =>
@@ -114,7 +123,7 @@ export const Promo = (props) => {
       case 'Digit8':
       case 'Digit9':
       case 'Digit0':
-        inputDigit(event.code.slice(-1));
+        inputDigit(event.code.slice(-1) as TDigit);
         break;
 
       default:
@@ -140,18 +149,18 @@ export const Promo = (props) => {
         <PromoFinal />
       )}
 
-      <PromoClose promoControl={props.promoControl} />
+      <PromoClose promoControl={promoControl} />
 
       <PromoQrCode />
     </div>
   );
 };
 
-const checkNumber = (number) => {
+const checkNumber = (number: string) => {
   return !/_/.test(number);
 };
 
-const validateNumber = async (number) => {
+const validateNumber = async (number: string) => {
   const API_KEY = '9a6f00b3e5b2495fb026a4448c87e040';
 
   const nakedNumber = nakeNumber(number);
@@ -163,11 +172,11 @@ const validateNumber = async (number) => {
   return result.valid;
 };
 
-const nakeNumber = (number) => {
+const nakeNumber = (number: string) => {
   return number.replace(/[+()-]/g, '');
 };
 
-const fetchNumberData = async (url) => {
+const fetchNumberData = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
 

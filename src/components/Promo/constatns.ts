@@ -1,5 +1,7 @@
+import { TButton } from './interfaces';
+
 // prettier-ignore
-export const buttonMap = [
+export const buttonMap: TButton[][] = [
   ['num1',     'num2',     'num3',     'close'],
   ['num4',     'num5',     'num6',     'close'],
   ['num7',     'num8',     'num9',     'close'],

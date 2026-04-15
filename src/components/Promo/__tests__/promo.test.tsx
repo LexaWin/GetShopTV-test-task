@@ -8,7 +8,7 @@ describe('Promo', () => {
 
     expect(screen.getByText('+7(___)___-__-__')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /подтвердить/i })).toBeDisabled();
-    expect(await screen.findByRole('button', { name: 5 })).toHaveFocus();
+    expect(await screen.findByRole('button', { name: '5' })).toHaveFocus();
   });
 
   it('цифры вводятся последовательно', () => {
@@ -49,9 +49,9 @@ describe('Promo', () => {
   });
 
   it('вместо PromoInput отображается PromoFinal при валидном номере', async () => {
-    vi.spyOn(global, 'fetch').mockResolvedValue({
-      json: async () => ({ valid: true }),
-    });
+    vi.spyOn(global, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ valid: true })),
+    );
 
     render(<Promo />);
 
@@ -68,9 +68,9 @@ describe('Promo', () => {
   });
 
   it('показывает ошибку при невалидном номере', async () => {
-    vi.spyOn(global, 'fetch').mockResolvedValue({
-      json: async () => ({ valid: false }),
-    });
+    vi.spyOn(global, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ valid: false })),
+    );
 
     render(<Promo />);
 
