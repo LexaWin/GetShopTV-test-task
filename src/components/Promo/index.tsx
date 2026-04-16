@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PromoInput } from '../PromoInput';
-import PromoFinal from '../PromoFinal';
+import { PromoFinal } from '../PromoFinal';
 import PromoClose from '../PromoClose';
 import PromoQrCode from '../PromoQrCode';
 import { buttonMap } from './constatns';
