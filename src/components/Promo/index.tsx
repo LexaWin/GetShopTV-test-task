@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PromoInput } from '../PromoInput';
 import { PromoFinal } from '../PromoFinal';
 import { PromoClose } from '../PromoClose';
-import PromoQrCode from '../PromoQrCode';
+import { PromoQrCode } from '../PromoQrCode';
 import { buttonMap } from './constatns';
 import { checkNumber, getButtonPosition, validateNumber } from './utils';
 import { TDigit } from './interfaces';
