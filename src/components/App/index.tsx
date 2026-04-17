@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Video from '../Video';
+import React, { useCallback, useState } from 'react';
+import { Video } from '../Video';
 import Banner from '../Banner';
 import { Promo } from '../Promo';
 
@@ -10,9 +10,9 @@ export const App = () => {
   const [isBannerActive, setIsBannerActive] = useState(false);
   const [isPromoActive, setIsPromoActive] = useState(false);
 
-  const activateBanner = () => {
+  const activateBanner = useCallback(() => {
     setIsBannerActive(true);
-  };
+  }, []);
 
   const activatePromo = () => {
     setIsBannerActive(false);

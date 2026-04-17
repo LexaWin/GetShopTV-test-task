@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { App } from '..';
 
 vi.mock('../../Video', () => ({
-  default: ({ bannerControl, canPlayVideo }: any) => {
+  Video: ({ bannerControl, canPlayVideo }: any) => {
     setTimeout(bannerControl, 5000);
 
     return (
