@@ -26,7 +26,13 @@ export default class Video extends React.Component {
 
   render() {
     return (
-      <video className="video" width="1280" height="720" muted>
+      <video
+        data-testid="video"
+        className="video"
+        width="1280"
+        height="720"
+        muted
+      >
         <source src={video} type="video/mp4" />
       </video>
     );
