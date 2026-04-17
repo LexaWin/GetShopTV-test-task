@@ -73,6 +73,7 @@
 .confirm-input-btn:disabled {
   border: 1px solid #4e4e4e;
   color: #4e4e4e;
+  cursor: not-allowed;
 }
 
 .confirm-input-btn:focus {
