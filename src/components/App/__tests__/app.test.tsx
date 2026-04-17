@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import App from '..';
+import { App } from '..';
 
 vi.mock('../../Video', () => ({
   default: ({ bannerControl, canPlayVideo }: any) => {

@@ -15,7 +15,7 @@ export default defineConfig({
       exclude: [
         '**/*.d.ts', // Исключаем декларации
         '**/*.css', // Исключаем стили
-        'src/index.js', // Исключаем точку входа
+        'src/index.tsx', // Исключаем точку входа
         'src/vite-env.d.ts',
         '**/*.test.{ts,tsx}',
         '**/*.spec.{ts,tsx}',
