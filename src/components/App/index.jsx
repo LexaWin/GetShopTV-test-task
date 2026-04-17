@@ -38,25 +38,25 @@ export default class App extends React.Component {
     this.setState({
       isPromoActive: false,
       isVideoPlaying: true,
-    })
+    });
   }
 
   render() {
     return (
-      <div className='app'>
+      <div className="app">
         {/* <Promo /> */}
         <Video
           bannerControl={this.activateBanner}
           canPlayVideo={this.state.isVideoPlaying}
         />
 
-        {this.state.isBannerActive && <Banner
-          bannerControl={this.activatePromo}
-        />}
+        {this.state.isBannerActive && (
+          <Banner bannerControl={this.activatePromo} />
+        )}
 
-        {this.state.isPromoActive && <Promo
-          promoControl={this.deactivatePromo}
-        />}
+        {this.state.isPromoActive && (
+          <Promo promoControl={this.deactivatePromo} />
+        )}
       </div>
     );
   }
